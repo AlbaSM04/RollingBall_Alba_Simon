@@ -6,10 +6,12 @@ using static UnityEditor.Searcher.SearcherWindow.Alignment;
 public class Bola : MonoBehaviour
 {
     Vector3 direccion=new Vector3 (0,0,0);
-    float velocidad;
+    float velocidad, fuerzaSalto, fuerzaX;
+    Rigidbody rb;
+
     void Start()
     {
-        
+        rb = GetComponent<Rigidbody>();
     }
 
     
@@ -17,12 +19,12 @@ public class Bola : MonoBehaviour
     {
         float h = Input.GetAxisRaw("horizontal");
         float v = Input.GetAxisRaw("vertical");
-        if (Input.GetKeyDown(KeyCode.W)||Input.GetKeyDown(KeyCode.UpArrow))
+       
+        transform.position += newVector3
+
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            h = 0;
-            v = 1;
-            direccion = new Vector3 (h, 0, v);
-            transform.Translate
+           rb.AddForce (0, fuerzaSalto, 0 )
         }
     }
 }
