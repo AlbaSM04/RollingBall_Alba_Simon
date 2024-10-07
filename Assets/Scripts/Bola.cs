@@ -5,8 +5,11 @@ using static UnityEditor.Searcher.SearcherWindow.Alignment;
 
 public class Bola : MonoBehaviour
 {
-    Vector3 direccion=new Vector3 (0,0,0);
-    float velocidad, fuerzaSalto, fuerzaX;
+    [SerializeField]Vector3 direccion=new Vector3 (0,0,0);
+    [SerializeField] float velocidad, fuerzaSalto, fuerzaX;
+    private float h;
+    private float v;
+
     Rigidbody rb;
 
     void Start()
@@ -17,14 +20,23 @@ public class Bola : MonoBehaviour
     
     void Update()
     {
-        float h = Input.GetAxisRaw("horizontal");
-        float v = Input.GetAxisRaw("vertical");
+        h = Input.GetAxisRaw("horizontal");
+        v = Input.GetAxisRaw("vertical");
        
-        transform.position += newVector3
+       
 
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-           rb.AddForce (0, fuerzaSalto, 0 )
+            rb.AddForce(0, fuerzaSalto, 0, ForceMode.Impulse);
         }
+    }
+    private void FixedUpdate()
+    {
+        rb.AddForce (h, 0, v, ForceMode.Force);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        Destroy (other.gameObject);
     }
 }
