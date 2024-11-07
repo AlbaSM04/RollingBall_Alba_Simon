@@ -24,8 +24,16 @@ public class Bola : MonoBehaviour
 
     void Update()
     {
-        h = Input.GetAxisRaw("Horizontal"); // h = 1 (D o →), h = -1 (A o ←), h = 0 (sin entrada)
-        v = Input.GetAxisRaw("Vertical");   // v = 1 (W o ↑), v = -1 (S o ↓), v = 0 (sin entrada)
+        h = Input.GetAxisRaw("Vertical"); // h = 1 (D o →), h = -1 (A o ←), h = 0 (sin entrada)
+        v = Input.GetAxisRaw("Horizontal");   // v = 1 (W o ↑), v = -1 (S o ↓), v = 0 (sin entrada)
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (DetectarSuelo())
+            {
+                rb.AddForce(0, fuerzaSalto, 0, ForceMode.Impulse);
+            }
+        }
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
