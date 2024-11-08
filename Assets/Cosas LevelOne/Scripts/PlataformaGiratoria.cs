@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class PlataformaGiratoria : MonoBehaviour
 {
+    [Header("Movimiento")]
+    [SerializeField] Vector3 direccion;
+    [SerializeField] int velocidad = 6;
+    float tiempo;
+    float cambioDireccionIntervalo = 0.75f;
+
     [Header("Configuración de Rotación")]
     [SerializeField] float tiempoEntreGiros = 3f; 
     [SerializeField] float velocidadGiro = 180f; 
@@ -19,6 +25,17 @@ public class PlataformaGiratoria : MonoBehaviour
 
     void Update()
     {
+        tiempo += Time.deltaTime;
+        if (tiempo >= cambioDireccionIntervalo)
+        {
+
+            direccion = -direccion;
+            tiempo = 0f;
+        }
+
+
+        transform.Translate(direccion.normalized * velocidad * Time.deltaTime, Space.World);
+
         if (!girando)
         {
             tiempoRestante -= Time.deltaTime;
