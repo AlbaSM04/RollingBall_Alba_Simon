@@ -9,6 +9,12 @@ TagManager:
   - Sierra
   - CambioCamara
   - CambioCamara2
+  - Pared
+  - SueloToxico
+  - Potencidor
+  - DesPotenciador
+  - Bola
+  - Ganar
   layers:
   - Default
   - TransparentFX

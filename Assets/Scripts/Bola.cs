@@ -22,7 +22,8 @@ public class Bola : MonoBehaviour
     int contadorMuertes = 0;
     
     [Header("Configuración camaras")]
-    [SerializeField] GameObject camaraPrincipal, camaraLateral;
+    [SerializeField] GameObject camaraPrincipal;
+    [SerializeField] GameObject camaraLateral;
 
     [Header("Posicion inicial")]
     [SerializeField] Vector3 reaparicion;
@@ -34,10 +35,19 @@ public class Bola : MonoBehaviour
     [Header("Muerte")]
     [SerializeField] MuertesHudManager muertesHudManager;
 
+    [Header("Canvas")]
+    [SerializeField] Canvas revivir;
+    [SerializeField] Canvas ganador;
+    [SerializeField] Canvas hud;
 
+    [Header("Audio")]
+    [SerializeField] AudioManager manager;
+    [SerializeField] AudioClip muerte;
+    
+    
+    
 
-
-    private Rigidbody rb;
+    Rigidbody rb;
 
     void Start()
     {
@@ -51,25 +61,34 @@ public class Bola : MonoBehaviour
         h = Input.GetAxisRaw("Horizontal"); // Movimiento en X: "A" y "D" para izquierda/derecha
         v = Input.GetAxisRaw("Vertical");   // Movimiento en Z: "W" y "S" para adelante/atrás
 
-        
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (DetectarSuelo()) 
+            if (DetectarSuelo())
             {
                 rb.AddForce(0, fuerzaSalto, 0, ForceMode.Impulse);
             }
         }
 
-        if (contadorMuertes < 3)
+        if (saludActual <= 0)
         {
-            if (saludActual <= 0)
+            manager.Sonido(muerte);
+
+            if (contadorMuertes <= 2)
             {
                 Reaparecer();
-                muertesHudManager.SumarMuertes();
-                saludActual = saludMaxima;
+                contadorMuertes++;  
+                muertesHudManager.SumarMuertes();  
+                saludActual = saludMaxima;  
             }
+            else
+            {
+                hud.gameObject.SetActive(false);  
+                revivir.gameObject.SetActive(true); 
+                Destroy(gameObject);  
+            }
+
         }
-        
     }
 
     void FixedUpdate()
@@ -87,14 +106,23 @@ public class Bola : MonoBehaviour
         if (other.gameObject.CompareTag("Bomba"))
         {
             saludActual = saludActual - cantidadDaño;
-            Debug.Log(saludActual);
             Destroy(other.gameObject);
+        }
+        
+        if (other.gameObject.CompareTag("SueloToxico"))
+        {
+            manager.Sonido(muerte);
+            Reaparecer();
+            muertesHudManager.SumarMuertes();
+            saludActual = saludMaxima;
+            camaraLateral.SetActive(false);
+            camaraPrincipal.SetActive(true);
+
         }
         
         if (other.gameObject.CompareTag("Sierra"))
         {
-            saludActual = saludActual - cantidadDaño;
-            Debug.Log(saludActual);            
+            saludActual = saludActual - cantidadDaño;                  
         }
         
         if (other.gameObject.CompareTag("Moneda"))
@@ -114,6 +142,22 @@ public class Bola : MonoBehaviour
             camaraPrincipal.SetActive(true);
             camaraLateral.SetActive(false);
         }
+        
+        if (other.gameObject.CompareTag("Potencidor"))
+        {
+            velocidad += 3;
+        }
+        
+        if (other.gameObject.CompareTag("DesPotenciador"))
+        {
+            velocidad -= 3;
+        }
+        
+        if (other.gameObject.CompareTag("Ganar"))
+        {
+            hud.gameObject.SetActive(false);
+            ganador.gameObject.SetActive(true);
+        }        
     }
 
     private void Reaparecer()
@@ -125,11 +169,6 @@ public class Bola : MonoBehaviour
         rb.isKinematic = false;         
     }
 
-    void Muerte()
-    {
-        Debug.Log("La bola ha sido destruida");
-        
-        Destroy(gameObject);
-    }    
+     
 }
     
