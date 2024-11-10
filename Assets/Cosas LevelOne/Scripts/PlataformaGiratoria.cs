@@ -17,7 +17,9 @@ public class PlataformaGiratoria : MonoBehaviour
 
     private float tiempoRestante; 
     private bool girando = false; 
-    private float anguloGiroPendiente = 0f; 
+    private float anguloGiroPendiente = 0f;
+
+    
     void Start()
     {
         tiempoRestante = tiempoEntreGiros; 
