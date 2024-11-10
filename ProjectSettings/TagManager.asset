@@ -15,6 +15,7 @@ TagManager:
   - DesPotenciador
   - Bola
   - Ganar
+  - Cuchilla
   layers:
   - Default
   - TransparentFX

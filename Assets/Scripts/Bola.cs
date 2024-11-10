@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Searcher.SearcherWindow.Alignment;
+
 
 public class Bola : MonoBehaviour
 {
@@ -121,6 +121,11 @@ public class Bola : MonoBehaviour
         }
         
         if (other.gameObject.CompareTag("Sierra"))
+        {
+            saludActual = saludActual - cantidadDaño;                  
+        }
+        
+        if (other.gameObject.CompareTag("Cuchilla"))
         {
             saludActual = saludActual - cantidadDaño;                  
         }
